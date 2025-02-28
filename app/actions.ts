@@ -26,6 +26,13 @@ export async function message(messages: Message[]) {
         maxTokens: 400,
     };
 
+    if (!process.env.WXFLOWS_ENDPOINT || !process.env.WXFLOWS_APIKEY) {
+        return {
+          role: "assistant",
+          content: "missing credentials, please update the .env file",
+        };
+      }
+
     const toolClient = new wxflows({
         endpoint: process.env.WXFLOWS_ENDPOINT,
         apikey: process.env.WXFLOWS_APIKEY,
@@ -38,9 +45,9 @@ export async function message(messages: Message[]) {
         projectId: process.env.WATSONX_AI_PROJECT_ID,
         messages,
         tools,
-        toolChoiceOption: "auto" ,
+        toolChoiceOption: "auto",
         ...modelParameters,
-    });
+      });
 
     if (chatResponse.result.choices[0].message?.tool_calls) {
 
