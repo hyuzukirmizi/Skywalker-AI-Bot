@@ -50,7 +50,7 @@ export async function message(messages: Message[]) {
       });
 
     if (chatResponse.result.choices[0].message?.tool_calls) {
-
+      // @ts-expect-error input type
         const toolResponses = await toolClient.executeTools(chatResponse);
 
     if (toolResponses && toolResponses.length > 0) {
